@@ -79,15 +79,23 @@ public class Server {
                     int nbCarte = Integer.parseInt(message.split(",")[1]);
                     int pos = Integer.parseInt(message.split(",")[2]);
 
+                    id = id+1;
+
                     if(id == Server.partie.getTour()) {
+
                         System.out.println(Server.partie.getPlayer(id).getMain().getCarte(nbCarte));
                         System.out.println(Server.partie.getFrise());
                         System.out.println(pos);
                         
-                        Server.partie.getFrise().insererCarteApres(Server.partie.getPlayer(id).getMain().getCarte(nbCarte), pos);
+                        boolean resultat = Server.partie.getFrise().insererCarteApres(Server.partie.getPlayer(id).getMain().getCarte(nbCarte), pos);
 
-                        System.out.println(Server.partie.getFrise());
-                        System.out.println(Server.partie.getPlayer(id).getMain());
+                        if(resultat){
+                            Server.partie.getPlayer(id).getOutput().println("afficher:"+"Carte insérée avec succès !");
+                        }else{
+                            Server.partie.getPlayer(id).getOutput().println("afficher:"+"Carte au mauvais endroit !");
+                        }
+
+                        Server.partie.tourSuivant();
                     }else{
                         System.out.println("Ce n'est pas à vous de jouer !");
                     }

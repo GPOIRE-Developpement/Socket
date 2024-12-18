@@ -110,8 +110,10 @@ Scanner sc = new Scanner(System.in);
 
     }
 
-    public void executerTour(){
-        
+    public void tourSuivant(){
+        this.tour = (this.tour+1)%players.size();
+
+        envoyerToutesInformations(this.tour);
     }
 
     public int partieTerminee(){

@@ -81,6 +81,12 @@ public class Client {
                     break;
                 };
 
+                if(messages.startsWith("afficher:")){
+                    messages = messages.substring(9);
+
+                    printColorer(messages, ANSI_GREEN);
+                }
+
                 if(messages.startsWith("main:")){
                     Client.main = new Main(messages);
 
