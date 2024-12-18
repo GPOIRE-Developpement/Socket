@@ -6,6 +6,8 @@ public class Server {
     private static final int PORT = 12345;
     private static ArrayList<Player> players = new ArrayList<>();
 
+    private static Jeu partie;
+
     public static void main(String[] args) {
         System.out.println("Serveur en écoute sur le port " + PORT);
 
@@ -28,8 +30,33 @@ public class Server {
                 System.out.println("Joueur ajouté : " + pseudo);
 
                 // Vérification si 2 joueurs ou plus sont connectés
-                if(players.size() >= 2){
-                    System.out.println("Prêt à jouer");
+                if(players.size() == 1){
+                    System.out.println("1 joueur connecté");
+
+                    output.println("1 joueur connecté, en attente d'un autre joueur...");
+                }else if(players.size() == 2){
+                    System.out.println("2 joueurs connectés");
+
+                    for(Player p : players) {
+                        p.getOutput().println("2 joueurs connectés, la partie peut commencer !");
+                    }
+
+                    String[] arguments = {"../cartes/timeline.txt", "../cartes/timeline2.txt"};
+                    Server.partie = new Jeu(players, arguments);
+
+                    Server.partie.initialisationPartie(5);
+                }else if(players.size() > 2){
+                    System.out.println("Trop de joueurs connectés");
+
+                    // Retirer le joueur de la liste
+                    players.remove(player);
+                    System.out.println("Joueur retiré : " + pseudo);
+
+                    output.println("Trop de joueurs connectés, veuillez réessayer plus tard.");
+
+                    // Fermer la connexion
+                    clientSocket.close();
+                    System.out.println("Connexion fermée avec : " + clientSocket.getInetAddress());
                 }
 
                 // Lancer une conversation avec le joueur dans un thread séparé
@@ -46,9 +73,28 @@ public class Server {
             String message;
             while ((message = input.readLine()) != null) {
                 System.out.println(player.getPseudo() + " : " + message);
-                if ("exit".equalsIgnoreCase(message)) {
+
+                System.out.print(Server.partie.getTour());
+
+                // Message : "play:[id],[nbCarte],[pos]"
+                if(message.startsWith("play:")) {
+                    message = message.substring(5);
+                    int id = Integer.parseInt(message.split(",")[0]);
+                    int nbCarte = Integer.parseInt(message.split(",")[1]);
+                    int pos = Integer.parseInt(message.split(",")[2]);
+
+                    if(id == Server.partie.getTour()) {
+                        
+                    }else{
+                        System.out.println("Ce n'est pas à vous de jouer !");
+                    }
+                }
+
+
+
+                if("exit".equalsIgnoreCase(message)) {
                     System.out.println(player.getPseudo() + " s'est déconnecté.");
-                    players.remove(player); // Retirer le joueur de la liste
+                    players.remove(player);
                     break;
                 }
             }
