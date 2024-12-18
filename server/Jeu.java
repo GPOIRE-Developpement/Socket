@@ -116,22 +116,22 @@ Scanner sc = new Scanner(System.in);
 
     public int partieTerminee(){
         while(pioche.getNbCartes() > 0 && players.get(0).getMain().getNbCartes() > 0 && players.get(1).getMain().getNbCartes() > 0) {
-            return 0
+            return 0;
         }
 
         if(pioche.getNbCartes() == 0) {
-            return 1
+            return 1;
 
             //this.players.get(0).getOutput().println("Vous avez perdu la partie car la pioche est vide !");
             //this.players.get(1).getOutput().println("Vous avez perdu la partie car la pioche est vide !");
         }else{
             if(players.get(0).getMain().getNbCartes() == 0){
-                return 2
+                return 2;
 
                 //this.players.get(0).getOutput().println("Vous avez gagné la partie !");
                 //this.players.get(1).getOutput().println("Vous avez perdu la partie !");
             }else{
-                return 3
+                return 3;
 
                 //this.players.get(0).getOutput().println("Vous avez perdu la partie !");
                 //this.players.get(1).getOutput().println("Vous avez gagné la partie !");
@@ -147,6 +147,13 @@ Scanner sc = new Scanner(System.in);
         this.tour = t;
     }
 
+    public Frise getFrise(){
+        return this.frise;
+    }
+
+    public Player getPlayer(int i){
+        return this.players.get(i);
+    }
 
     /*
     private int choisirCarte() {

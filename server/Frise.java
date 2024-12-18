@@ -31,9 +31,9 @@ public class Frise {
 
         if(p == 0 && this.cartes.getNbCartes() == 0) return true;
 
-        Carte cartePrecedente = cartes.getCarte(p - 1);
+        Carte cartePrecedente = cartes.getCarte(p-1);
         Carte carteSuivante = null;
-        
+
         if (p+1 < cartes.getNbCartes()) {
             carteSuivante = cartes.getCarte(p);
         }

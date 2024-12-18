@@ -72,10 +72,6 @@ public class Server {
         try {
             String message;
             while ((message = input.readLine()) != null) {
-                System.out.println(player.getPseudo() + " : " + message);
-
-                System.out.print(Server.partie.getTour());
-
                 // Message : "play:[id],[nbCarte],[pos]"
                 if(message.startsWith("play:")) {
                     message = message.substring(5);
@@ -84,7 +80,14 @@ public class Server {
                     int pos = Integer.parseInt(message.split(",")[2]);
 
                     if(id == Server.partie.getTour()) {
+                        System.out.println(Server.partie.getPlayer(id).getMain().getCarte(nbCarte));
+                        System.out.println(Server.partie.getFrise());
+                        System.out.println(pos);
                         
+                        Server.partie.getFrise().insererCarteApres(Server.partie.getPlayer(id).getMain().getCarte(nbCarte), pos);
+
+                        System.out.println(Server.partie.getFrise());
+                        System.out.println(Server.partie.getPlayer(id).getMain());
                     }else{
                         System.out.println("Ce n'est pas à vous de jouer !");
                     }

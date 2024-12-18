@@ -70,48 +70,42 @@ public class Client {
                 message = input.readLine();
             }
 
-            // Attendre la main //
-            message = input.readLine();  
-            while(message == null || !message.startsWith("main:")) {
-                System.out.println(message);
-                message = input.readLine();
-            }
-
-            Client.main = new Main(message);
-
-            System.out.println("Voici votre main :");
-            printColorer(Client.main.toString(), ANSI_BLUE);
-
-            // Attendre la frise //
             message = input.readLine();
-            while(message == null || !message.startsWith("frise:")) {
-                System.out.println(message);
+            while(message != null && !message.startsWith("fin:")){
+                String messages = message;
+                message = null;
+
+                if(messages == null){
+                    message = input.readLine();
+
+                    break;
+                };
+
+                if(messages.startsWith("main:")){
+                    Client.main = new Main(messages);
+
+                    System.out.println("Voici votre main :");
+                    printColorer(Client.main.toString(), ANSI_BLUE);
+                }
+
+                if(messages.startsWith("frise:")){
+                    Client.frise = new Frise(messages);
+
+                    System.out.println("Voici la frise :");
+                    printColorer(frise.toString(), ANSI_YELLOW);
+                }
+
+                if(messages.startsWith("start:")){
+                    if(messages.equals("start:0")){
+                        printColorer("C'est à toi de jouer !", ANSI_RED);
+
+                        Client.jouer();
+                    }else{
+                        printColorer("Merci de patienter le temps que l'autre joueur joue !", ANSI_RED);
+                    }
+                }
+
                 message = input.readLine();
-            }
-            Client.frise = new Frise(message);
-
-            System.out.println("Voici la frise :");
-            printColorer(frise.toString(), ANSI_YELLOW);
-
-            // Attendre le début de la partie //
-
-            message = input.readLine();
-            while(message == null || !message.startsWith("start:")) {
-                System.out.println(message);
-                message = input.readLine();
-            }
-
-            Client.id = Integer.parseInt(message.substring(6));
-
-            if(message.equals("start:0")) {
-                printColorer("C'est à vous de jouer !", ANSI_RED);
-                printColorer("-------------------------------", ANSI_RESET);
-
-                Client.jouer();
-            }else{
-                printColorer("C'est pas à toi de jouer !", ANSI_RED);
-                printColorer("-------------------------------", ANSI_RESET);
-                printColorer("Merci de patienter", ANSI_BLUE);
             }
         } catch (IOException e) {
             e.printStackTrace();
