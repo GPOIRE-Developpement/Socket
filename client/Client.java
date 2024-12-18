@@ -45,6 +45,8 @@ public class Client {
             System.out.println("Vous allez jouer la carte avant :" + Client.frise.getPaquet().getCarte(0).toString());
         }else if(pos == Client.frise.getPaquet().getNbCartes()-1){
             System.out.println("Vous allez jouer la carte après :" + Client.frise.getPaquet().getCarte(Client.frise.getPaquet().getNbCartes()-1).toString());
+        }else if(pos == 0){
+            System.out.println("Vous allez jouer la carte après :" + Client.frise.getPaquet().getCarte(0).toString());
         }else{
             System.out.println("Vous allez jouer la carte entre :" + Client.frise.getPaquet().getCarte(pos-1).toString() + "et" + Client.frise.getPaquet().getCarte(pos).toString());
         }
@@ -102,7 +104,9 @@ public class Client {
                 }
 
                 if(messages.startsWith("start:")){
-                    if(messages.equals("start:0")){
+                    id = Integer.parseInt(messages.substring(6, 7));
+                    int status = Integer.parseInt(messages.substring(8));
+                    if(status == 1){
                         printColorer("C'est à toi de jouer !", ANSI_RED);
 
                         Client.jouer();
@@ -113,6 +117,11 @@ public class Client {
 
                 message = input.readLine();
             }
+            
+            message = message.substring(4);
+
+            System.out.println("La partie est terminée !");
+            printColorer(message, ANSI_BLUE);
         } catch (IOException e) {
             e.printStackTrace();
         }

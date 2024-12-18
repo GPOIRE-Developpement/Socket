@@ -101,13 +101,11 @@ Scanner sc = new Scanner(System.in);
             this.tour = playerNext;
             
             if(i == playerNext){
-                p.getOutput().println("start:1");
+                p.getOutput().println("start:"+i+",1");
             }else{
-                p.getOutput().println("start:0");
+                p.getOutput().println("start:"+i+",0");
             }
         }
-
-
     }
 
     public void tourSuivant(){
@@ -155,6 +153,10 @@ Scanner sc = new Scanner(System.in);
 
     public Player getPlayer(int i){
         return this.players.get(i);
+    }
+
+    public Paquet getPioche(){
+        return this.pioche;
     }
 
     /*

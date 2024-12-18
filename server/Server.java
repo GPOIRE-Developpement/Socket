@@ -79,8 +79,6 @@ public class Server {
                     int nbCarte = Integer.parseInt(message.split(",")[1]);
                     int pos = Integer.parseInt(message.split(",")[2]);
 
-                    id = id+1;
-
                     if(id == Server.partie.getTour()) {
 
                         System.out.println(Server.partie.getPlayer(id).getMain().getCarte(nbCarte));
@@ -89,9 +87,18 @@ public class Server {
                         
                         boolean resultat = Server.partie.getFrise().insererCarteApres(Server.partie.getPlayer(id).getMain().getCarte(nbCarte), pos);
 
+                        Server.partie.getPlayer(id).getMain().retirerCarte(nbCarte);
+
                         if(resultat){
                             Server.partie.getPlayer(id).getOutput().println("afficher:"+"Carte insérée avec succès !");
+
+                            if(Server.partie.getPlayer(id).getMain().getNbCartes() == 0){
+                                Server.partie.getPlayer(id).getOutput().println("fin:Vous avez gagné !");
+                                Server.partie.getPlayer((id+1)%2).getOutput().println("fin:Vous avez perdu !");
+                            }
                         }else{
+                            Server.partie.getPlayer(id).getMain().ajouterCarteFin(Server.partie.getPioche().piocherHasard());
+
                             Server.partie.getPlayer(id).getOutput().println("afficher:"+"Carte au mauvais endroit !");
                         }
 
